@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>압구정 B2B 운영조건 점검 브리프</title>
+    <style>
+      :root {
+        --bg: #f5efe3;
+        --paper: rgba(255, 251, 245, 0.88);
+        --paper-strong: #fffaf0;
+        --ink: #162028;
+        --ink-muted: #5f6c73;
+        --line: rgba(22, 32, 40, 0.12);
+        --accent: #15364a;
+        --accent-soft: #d9e8ef;
+        --signal: #c86f31;
+        --good: #1e6c49;
+        --warn: #b77b14;
+        --shadow: 0 24px 60px rgba(30, 36, 46, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(200, 111, 49, 0.18), transparent 28%),
+          radial-gradient(circle at right 15%, rgba(21, 54, 74, 0.14), transparent 24%),
+          linear-gradient(180deg, #f6efdf 0%, #f1e5d0 42%, #efe8dd 100%);
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+      }
+
+      .shell {
+        width: min(1160px, calc(100vw - 40px));
+        margin: 0 auto;
+        padding: 28px 0 64px;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 18px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 250, 240, 0.76);
+        border: 1px solid rgba(21, 54, 74, 0.08);
+        color: var(--ink-muted);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .actions button,
+      .actions a {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 12px 18px;
+        background: var(--accent);
+        color: #f9f4eb;
+        font: inherit;
+        font-size: 14px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(21, 54, 74, 0.18);
+      }
+
+      .actions .secondary {
+        background: rgba(255, 250, 240, 0.9);
+        color: var(--accent);
+        box-shadow: none;
+        border: 1px solid rgba(21, 54, 74, 0.12);
+      }
+
+      .paper {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(21, 54, 74, 0.08);
+        border-radius: 32px;
+        background: linear-gradient(180deg, rgba(255, 251, 245, 0.96), rgba(252, 248, 241, 0.9));
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .paper::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(120deg, rgba(255, 255, 255, 0.45), transparent 30%),
+          linear-gradient(180deg, transparent 0%, rgba(21, 54, 74, 0.035) 100%);
+        pointer-events: none;
+      }
+
+      .hero {
+        position: relative;
+        padding: 44px 44px 30px;
+        display: grid;
+        grid-template-columns: 1.35fr 0.95fr;
+        gap: 28px;
+      }
+
+      .hero h1,
+      h2,
+      h3 {
+        font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        margin: 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(34px, 4vw, 58px);
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+        margin-bottom: 18px;
+      }
+
+      .hero p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--ink-muted);
+        font-size: 16px;
+      }
+
+      .meta-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .meta-card,
+      .panel,
+      .decision-card,
+      .agenda-card,
+      .history-card,
+      .question-card {
+        border-radius: 24px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+      }
+
+      .meta-card {
+        padding: 18px 20px;
+      }
+
+      .meta-card strong,
+      .panel strong,
+      .decision-card strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-muted);
+      }
+
+      .meta-card span {
+        display: block;
+        font-size: 18px;
+        line-height: 1.4;
+      }
+
+      .hero-note {
+        margin-top: 20px;
+        padding: 18px 20px;
+        border-radius: 24px;
+        background: rgba(21, 54, 74, 0.06);
+        border: 1px solid rgba(21, 54, 74, 0.08);
+      }
+
+      .hero-note ul,
+      .agenda-card ul,
+      .question-card ul,
+      .panel ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--ink-muted);
+      }
+
+      .band {
+        padding: 0 44px 30px;
+      }
+
+      .band-card {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        padding: 18px;
+        border-radius: 26px;
+        background: #173649;
+        color: #f8f4ed;
+      }
+
+      .band-card .cell {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .band-card .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.7;
+      }
+
+      .band-card .value {
+        margin-top: 8px;
+        font-size: 20px;
+        line-height: 1.35;
+      }
+
+      .section {
+        position: relative;
+        padding: 0 44px 32px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 20px;
+        margin-bottom: 18px;
+      }
+
+      .section-header h2 {
+        font-size: 32px;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+
+      .section-header p {
+        max-width: 520px;
+        margin: 0;
+        color: var(--ink-muted);
+        line-height: 1.7;
+      }
+
+      .status-row,
+      .agenda-grid,
+      .decision-grid,
+      .question-grid,
+      .history-grid,
+      .closing-grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .status-row {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+
+      .panel {
+        padding: 22px 24px;
+      }
+
+      .panel h3,
+      .agenda-card h3,
+      .decision-card h3,
+      .history-card h3,
+      .question-card h3 {
+        font-size: 23px;
+        line-height: 1.15;
+        margin-bottom: 14px;
+      }
+
+      .panel p,
+      .agenda-card p,
+      .decision-card p,
+      .history-card p,
+      .question-card p {
+        margin: 0;
+        color: var(--ink-muted);
+        line-height: 1.7;
+      }
+
+      .signal-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .signal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        background: rgba(255, 250, 240, 0.78);
+        border: 1px solid rgba(22, 32, 40, 0.08);
+      }
+
+      .signal strong {
+        margin: 0;
+        font-size: 15px;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--ink);
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .chip.warn {
+        color: #7a5114;
+        background: rgba(183, 123, 20, 0.15);
+      }
+
+      .chip.good {
+        color: #155536;
+        background: rgba(30, 108, 73, 0.15);
+      }
+
+      .chip.info {
+        color: #1d4c67;
+        background: rgba(21, 54, 74, 0.12);
+      }
+
+      .agenda-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .agenda-card,
+      .question-card,
+      .history-card,
+      .decision-card {
+        padding: 24px;
+      }
+
+      .agenda-card .evidence {
+        margin: 14px 0 12px;
+        padding: 14px 16px;
+        border-radius: 18px;
+        background: rgba(21, 54, 74, 0.06);
+      }
+
+      .agenda-card .evidence strong,
+      .history-card strong,
+      .question-card strong,
+      .decision-card strong {
+        margin-bottom: 8px;
+      }
+
+      .decision-grid,
+      .question-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .history-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .history-card .date {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: rgba(200, 111, 49, 0.12);
+        color: #935320;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .table-wrap {
+        overflow: hidden;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(255, 251, 245, 0.82);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-muted);
+        background: rgba(21, 54, 74, 0.05);
+      }
+
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .closing-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer {
+        padding: 8px 44px 40px;
+        color: var(--ink-muted);
+        font-size: 13px;
+      }
+
+      .print-only {
+        display: none;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .status-row,
+        .agenda-grid,
+        .decision-grid,
+        .question-grid,
+        .history-grid,
+        .closing-grid,
+        .band-card {
+          grid-template-columns: 1fr;
+        }
+
+        .toolbar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .actions {
+          justify-content: stretch;
+          flex-wrap: wrap;
+        }
+
+        .actions button,
+        .actions a {
+          flex: 1 1 220px;
+          text-align: center;
+        }
+
+        .hero,
+        .band,
+        .section,
+        .footer {
+          padding-left: 22px;
+          padding-right: 22px;
+        }
+      }
+
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        .shell {
+          width: 100%;
+          padding: 0;
+        }
+
+        .toolbar {
+          display: none;
+        }
+
+        .paper {
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+          background: #fff;
+        }
+
+        .paper::before {
+          display: none;
+        }
+
+        .hero,
+        .band,
+        .section,
+        .footer {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
+        .hero,
+        .section,
+        .band,
+        .footer {
+          break-inside: avoid;
+        }
+
+        .print-only {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="toolbar">
+        <div class="eyebrow">Apgujeong B2B | Hyundai E&C | External Brief</div>
+        <div class="actions">
+          <button type="button" onclick="window.print()">PDF 저장</button>
+          <a class="secondary" href="#meeting-checklist">확인 시트로 이동</a>
+        </div>
+      </div>
+
+      <main class="paper">
+        <section class="hero">
+          <div>
+            <h1>압구정 B2B 운영조건 점검 브리프</h1>
+            <p>
+              현대건설 차주 미팅용 외부 공유 초안입니다. 공개 GitHub 기준으로 확인 가능한 운영 근거와
+              현장/정책 협의가 필요한 공백을 분리해, 이번 미팅에서 반드시 확정해야 할 의사결정 항목만
+              빠르게 정리했습니다.
+            </p>
+            <div class="hero-note">
+              <strong>이번 문서의 전제</strong>
+              <ul>
+                <li>검토 기준은 공개 저장소 `hkmc-airlab/shucle-product`의 현재 README, 2020 README, 최근 요구사항 템플릿입니다.</li>
+                <li>공개 텍스트 자산과 GitHub 이슈 검색 기준으로 `압구정`, `현대건설` 직접 표기 초안은 확인되지 않았습니다.</li>
+                <li>따라서 본 문서는 공개 B2B 운영기획 축을 근거로 삼고, 압구정 미팅에서 확정해야 할 실제 운영안 항목을 정리합니다.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="meta-grid">
+            <div class="meta-card">
+              <strong>문서 버전</strong>
+              <span>External Draft v0.1</span>
+            </div>
+            <div class="meta-card">
+              <strong>기준일</strong>
+              <span>2026.04.15 작성</span>
+            </div>
+            <div class="meta-card">
+              <strong>미팅 주간</strong>
+              <span>2026.04.20 주간</span>
+            </div>
+            <div class="meta-card">
+              <strong>핵심 목적</strong>
+              <span>운영시간, 패널티, 휴차지 운영, 가상정류장 위치 확정</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="band">
+          <div class="band-card">
+            <div class="cell">
+              <div class="label">Meeting Ask 01</div>
+              <div class="value">서비스 운영시간 확정</div>
+            </div>
+            <div class="cell">
+              <div class="label">Meeting Ask 02</div>
+              <div class="value">패널티 정책 기준선 확정</div>
+            </div>
+            <div class="cell">
+              <div class="label">Meeting Ask 03</div>
+              <div class="value">휴차지 장소 및 스케줄 확정</div>
+            </div>
+            <div class="cell">
+              <div class="label">Meeting Ask 04</div>
+              <div class="value">가상정류장 현장 위치 확인</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>한눈에 보는 판단 기준</h2>
+            </div>
+            <p>
+              이번 미팅 자료는 "공개 제품기획 문서로 확인 가능한 운영 축"과 "현장/정책 협의 없이는 확정할 수 없는 항목"
+              을 분리해 보는 것이 핵심입니다.
+            </p>
+          </div>
+
+          <div class="status-row">
+            <div class="panel">
+              <h3>공개 리포지토리에서 확인된 운영 근거</h3>
+              <p>
+                `shucle-product`의 히스토리에는 B2B 플랫폼 정책, 차량 계획, 정산, 플릿관리, 운영 매뉴얼,
+                서비스지역과 픽업/드롭오프 포인트 관리가 명시돼 있습니다. 최근에는 운영사·운수사 요구사항을
+                이슈 템플릿으로 구조화해 지역별 운영요건을 기록하도록 정비한 흔적도 확인됩니다.
+              </p>
+              <div class="signal-list">
+                <div class="signal">
+                  <strong>B2B 운영정책과 플릿관리 축은 제품 기획에 명시됨</strong>
+                  <span class="chip good">확인 가능</span>
+                </div>
+                <div class="signal">
+                  <strong>운영사 요구사항을 지역/프로젝트 단위로 적재하는 구조 존재</strong>
+                  <span class="chip good">확인 가능</span>
+                </div>
+                <div class="signal">
+                  <strong>서비스지역·픽업/드롭오프 포인트 관리 축이 명시됨</strong>
+                  <span class="chip good">확인 가능</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>공개 리포지토리에서 바로 확인되지 않는 항목</h3>
+              <p>
+                압구정 전용 운영시간표, 현대건설 협의 메모, 휴차지 후보지, 가상정류장 좌표안은 공개 텍스트 자산에
+                없습니다. 이 항목은 이번 미팅에서 사업지 운영표준으로 직접 확정해야 합니다.
+              </p>
+              <div class="signal-list">
+                <div class="signal">
+                  <strong>휴차지 장소 리스트</strong>
+                  <span class="chip warn">현장 확정</span>
+                </div>
+                <div class="signal">
+                  <strong>휴차지 회수/배차 시각</strong>
+                  <span class="chip warn">현장 확정</span>
+                </div>
+                <div class="signal">
+                  <strong>가상정류장 실제 좌표</strong>
+                  <span class="chip warn">현장 확정</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>안건별 점검 포인트</h2>
+            </div>
+            <p>각 안건마다 "공개 자료 근거", "이번 미팅에서 물어야 할 질문", "결정 산출물"을 붙였습니다.</p>
+          </div>
+
+          <div class="agenda-grid">
+            <article class="agenda-card">
+              <h3>1. 서비스 운영시간 확정</h3>
+              <p>
+                공개 기획 문서에는 운영사 요구사항을 `정책 변경`, `운영 효율화`, `서비스지역·노선` 카테고리로
+                기록하는 구조가 있습니다. 즉, 운영시간은 제품 기능보다 운영정책 요건으로 정리해 확정하는 방식이 맞습니다.
+              </p>
+              <div class="evidence">
+                <strong>공개 자료 근거</strong>
+                <p>`운영사·운수사 요구사항 등록`, `정책 변경`, `정기미팅`, `프로젝트`, `지역`</p>
+              </div>
+              <ul>
+                <li>주중/주말 동일 운영인지, 시간대 분리 운영인지</li>
+                <li>첫차/막차 기준이 서비스 노출 시간인지 실제 운행 가능 시간인지</li>
+                <li>야간 제한 시 호출 차단 시점과 탑승 종료 허용 시점을 어떻게 나눌지</li>
+              </ul>
+            </article>
+
+            <article class="agenda-card">
+              <h3>2. 패널티 정책</h3>
+              <p>
+                과거 기획 문서에는 `cost settlement`, `fleet management`, `Operation manual`이 명시됩니다.
+                즉 패널티는 단순 기능 항목보다 운영정산 기준과 운영 매뉴얼 안에서 확정해야 하는 성격이 강합니다.
+              </p>
+              <div class="evidence">
+                <strong>공개 자료 근거</strong>
+                <p>`B2B : vehicle plan, cost settlement, fleet management`, `CS manual`, `Operation manual`</p>
+              </div>
+              <ul>
+                <li>운영시간 외 반납, 지정 외 구역 반납, 휴차지 외 적치에 대해 각각 별도 패널티를 둘지</li>
+                <li>현장 확인 후 부과인지 시스템 자동 부과인지</li>
+                <li>패널티 면책 기준과 사진 증빙 책임 주체가 누구인지</li>
+              </ul>
+            </article>
+
+            <article class="agenda-card">
+              <h3>3. 휴차지 장소 및 스케줄</h3>
+              <p>
+                공개 자료에는 휴차지 리스트 자체는 없지만, 운영사 요건을 프로젝트/지역 단위로 적재하는 구조가 이미
+                있습니다. 따라서 휴차지는 시스템 화면보다 운영 매뉴얼과 현장 운영표로 확정해야 하는 영역입니다.
+              </p>
+              <div class="evidence">
+                <strong>공개 자료 근거</strong>
+                <p>`요구사항 등록`, `프로젝트`, `지역`, `운영 효율화`, `운영사 또는 운수사로부터 인입된 요건`</p>
+              </div>
+              <ul>
+                <li>휴차지 후보지의 정확한 주소, 수용 대수, 접근 가능 시간</li>
+                <li>회수/재배치 요일 및 시간, 비상 상황 시 대체 장소</li>
+                <li>현대건설 측 승인 프로세스와 현장 담당자 연락 체계</li>
+              </ul>
+            </article>
+
+            <article class="agenda-card">
+              <h3>4. 가상정류장 현장 위치 확인</h3>
+              <p>
+                2020 기획 문서에는 `service zone`, `pickup/dropoff points`, `walk network`, `POI`가 명시돼
+                있습니다. 즉 가상정류장은 제품 구조상 새로운 개념이 아니라, 지역별 포인트 설계와 운영정책의 조합으로
+                보는 것이 맞습니다.
+              </p>
+              <div class="evidence">
+                <strong>공개 자료 근거</strong>
+                <p>`service zone`, `pickup/dropoff points`, `walk network`, `POI`</p>
+              </div>
+              <ul>
+                <li>후보 위치별 보행 동선, 차량 동선, 안전 이격거리 확인</li>
+                <li>승차 가능 지점과 하차 가능 지점을 동일 좌표로 둘지 분리할지</li>
+                <li>실제 운영구역 반영 시 예외 구역이나 속도 제한을 둘 필요가 있는지</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>리포지토리 히스토리 요약</h2>
+            </div>
+            <p>압구정 직접 초안은 보이지 않았고, 대신 B2B 운영기획 구조가 어떻게 진화했는지를 추렸습니다.</p>
+          </div>
+
+          <div class="history-grid">
+            <article class="history-card">
+              <div class="date">2020</div>
+              <h3>B2B 기획 축 등장</h3>
+              <p>README_2020에서 B2B 플랫폼 정책을 `vehicle plan`, `cost settlement`, `fleet management`로 정의했습니다.</p>
+            </article>
+
+            <article class="history-card">
+              <div class="date">2020</div>
+              <h3>운영 매뉴얼 축 확인</h3>
+              <p>`Service platform CRM` 항목에 B2B 대상 `CS manual`, `Operation manual`이 잡혀 있어 운영표준 문서화 방향이 보입니다.</p>
+            </article>
+
+            <article class="history-card">
+              <div class="date">2020</div>
+              <h3>지역 포인트 관리 축 확인</h3>
+              <p>`service zone`, `pickup/dropoff points`, `walk network`, `POI`가 함께 적혀 있어 가상정류장 검토의 상위 프레임을 제공합니다.</p>
+            </article>
+
+            <article class="history-card">
+              <div class="date">2025-2026</div>
+              <h3>요구사항 관리 체계 정비</h3>
+              <p>최근에는 운영사·운수사 요구사항 등록 템플릿과 프로젝트 필드 동기화 워크플로가 추가돼, 사업지별 운영요건을 이슈 구조로 다루는 체계가 강화됐습니다.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>현재까지 확인한 공개 근거</h2>
+            </div>
+            <p>외부 미팅에서 말해도 되는 수준으로, 공개 저장소 기준으로 확인 가능한 문구만 정리했습니다.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>출처</th>
+                  <th>확인 문구</th>
+                  <th>미팅 자료에서의 해석</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>`README_2020`</td>
+                  <td>`B2B : vehicle plan, cost settlement, fleet management`</td>
+                  <td>패널티와 운영시간은 제품 기능 단위가 아니라 B2B 운영정산 정책으로 묶어 설명하는 게 적절함</td>
+                </tr>
+                <tr>
+                  <td>`README_2020`</td>
+                  <td>`CS manual`, `Operation manual`</td>
+                  <td>휴차지와 현장 운영 프로세스는 매뉴얼 관점으로 정리하는 편이 자연스러움</td>
+                </tr>
+                <tr>
+                  <td>`README_2020`</td>
+                  <td>`service zone`, `pickup/dropoff points`, `walk network`, `POI`</td>
+                  <td>가상정류장 논의는 좌표 하나보다 서비스 존과 보행 접근성 묶음으로 봐야 함</td>
+                </tr>
+                <tr>
+                  <td>`요건_등록.yml`</td>
+                  <td>`운영사·운수사 요구사항 등록`, `정책 변경`, `서비스지역·노선`, `프로젝트`, `지역`</td>
+                  <td>압구정 안건 4개는 모두 지역별 운영요건 이슈 형식으로 재정리 가능</td>
+                </tr>
+                <tr>
+                  <td>GitHub 검색</td>
+                  <td>`압구정`, `현대건설` 검색 결과 0건</td>
+                  <td>공개 저장소 기준으로는 압구정 전용 초안이 따로 보이지 않으므로 현장 확정이 중요함</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2 id="meeting-checklist">미팅 확인 시트</h2>
+            </div>
+            <p>회의 중 그대로 읽고 체크할 수 있도록 질문과 산출물을 표 형식으로 정리했습니다.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>확인 항목</th>
+                  <th>회의 중 질문</th>
+                  <th>이번 회의 종료 기준</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>서비스 운영시간</td>
+                  <td>평일/주말 운영시간이 동일한가? 마지막 탑승 허용 시간과 서비스 종료 시간은 어떻게 구분하는가?</td>
+                  <td>운영 시작/종료 시각, 예외 운영일, 노출 기준 확정</td>
+                </tr>
+                <tr>
+                  <td>패널티 정책</td>
+                  <td>위반 유형별 부과 금액과 증빙 방식은? 수기 판정인지 자동 부과인지?</td>
+                  <td>패널티 유형, 금액, 면책 기준, 증빙 책임자 확정</td>
+                </tr>
+                <tr>
+                  <td>휴차지 장소 및 스케줄</td>
+                  <td>정식 휴차지 위치는 어디이며 몇 대까지 수용 가능한가? 회수/재배치 시간은?</td>
+                  <td>장소 리스트, 담당자, 운영 요일/시각, 대체 시나리오 확정</td>
+                </tr>
+                <tr>
+                  <td>가상정류장 현장 위치</td>
+                  <td>실제 승하차 포인트 좌표는 어디인가? 보행/차량 동선 상 안전 이슈는 없는가?</td>
+                  <td>최종 후보 좌표, 현장 사진, 예외 구역 여부 확정</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>회의 직후 남겨야 할 결정 사항</h2>
+            </div>
+            <p>의견 교환으로 끝나지 않도록, 회의 직후 문서화할 항목을 미리 비워 두었습니다.</p>
+          </div>
+
+          <div class="decision-grid">
+            <article class="decision-card">
+              <strong>Decision 01</strong>
+              <h3>운영시간 확정안</h3>
+              <p>예: 평일 06:30-22:30 / 주말 08:00-22:00, 마지막 호출 마감 21:45</p>
+            </article>
+
+            <article class="decision-card">
+              <strong>Decision 02</strong>
+              <h3>패널티 적용표</h3>
+              <p>예: 지정 외 반납 / 운영시간 외 반납 / 휴차지 미이동 각각의 금액, 증빙, 면책 기준</p>
+            </article>
+
+            <article class="decision-card">
+              <strong>Decision 03</strong>
+              <h3>휴차지 운영표</h3>
+              <p>예: 위치, 수용 대수, 회수 시간, 현장 담당자, 비상시 대체 장소</p>
+            </article>
+
+            <article class="decision-card">
+              <strong>Decision 04</strong>
+              <h3>가상정류장 좌표 시트</h3>
+              <p>예: 후보 위치별 좌표, 사진, 안전 이슈, 최종 승인 여부</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h2>오픈 이슈와 후속 액션</h2>
+            </div>
+            <p>이번 미팅에서 답을 못 받더라도, 후속 액션이 바로 이어지도록 정리했습니다.</p>
+          </div>
+
+          <div class="closing-grid">
+            <article class="question-card">
+              <strong>Open Issues</strong>
+              <h3>지금 상태에서 남는 리스크</h3>
+              <ul>
+                <li>공개 저장소 기준으로는 압구정 전용 운영안이 없어 현장 가정이 많이 남아 있습니다.</li>
+                <li>휴차지와 가상정류장은 좌표 확정 전까지 실제 운영 가능성 검증이 불완전합니다.</li>
+                <li>패널티와 운영시간은 기능 스펙보다 운영정책/정산표/운영 매뉴얼로 정리돼야 해 회의 후 문서화가 중요합니다.</li>
+              </ul>
+            </article>
+
+            <article class="question-card">
+              <strong>Next Actions</strong>
+              <h3>회의 후 24시간 이내 권장 작업</h3>
+              <ul>
+                <li>확정된 운영시간과 패널티를 표준 운영안 표로 정리</li>
+                <li>휴차지 및 가상정류장 후보 좌표를 지도 캡처와 함께 별첨</li>
+                <li>정책 항목별 책임 주체를 명시한 후속 메일 초안 발송</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <div class="footer">
+          <div class="print-only">압구정 B2B 운영조건 점검 브리프 | External Draft v0.1</div>
+          Source basis: public `hkmc-airlab/shucle-product` README, README_2020, issue template, and GitHub search review.
+        </div>
+      </main>
+    </div>
+  </body>
+  </html>
